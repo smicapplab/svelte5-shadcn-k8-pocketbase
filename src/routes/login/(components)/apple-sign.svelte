@@ -8,8 +8,8 @@
 	variant="outline"
 	type="button"
 	disabled={isLoading}
-	class="font-bold text-white bg-blue-600 rounded hover:bg-blue-700 hover:text-gray-200"
+	class="font-bold text-white bg-gray-800 rounded hover:bg-black hover:text-gray-200"
 >
-	<i class=" fa-brands fa-facebook-f"></i>
-	<span class="ml-3">Facebook</span>
+	<i class=" fa-brands fa-apple"></i>
+	<span class="ml-3">Apple</span>
 </Button>

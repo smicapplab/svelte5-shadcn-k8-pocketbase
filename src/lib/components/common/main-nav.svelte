@@ -1,7 +1,7 @@
 <script>
 	import { cn } from '$lib/utils';
 	let className = undefined;
-	export { className as class };
+	export { className as class }; 
 </script>
 
 <div class="border-b">

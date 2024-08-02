@@ -8,6 +8,8 @@
 	import GoogleSign from './google-sign.svelte';
     import FacebookSign from './fb-sign.svelte';
 	import Divider from './divider.svelte';
+	import AppleSign from './apple-sign.svelte';
+	import SocialAuth from './social-auth.svelte';
 
 	let isLoading = $state(false);
 	let showPassword = $state(false);
@@ -47,14 +49,13 @@
         </p>
 		<Button type="submit" disabled={isLoading}>
 			{#if isLoading}
-				<Icons.spinner class="w-4 h-4 mr-2 animate-spin" />
+				<!-- <Icons.spinner class="w-4 h-4 mr-2 animate-spin" /> -->
 			{/if}
 			Sign Up with Email
 		</Button>
 	</form>
 	<Divider dividerLabel="Or sign in with" />
-    <GoogleSign isLoading={isLoading} />
-    <FacebookSign isLoading={isLoading} />
+    <SocialAuth isLoading={isLoading} />
 </div>
 
 <style>
