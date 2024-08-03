@@ -45,7 +45,6 @@
 			<Form.Description>Email address you used to sign up.</Form.Description>
 			<Form.FieldErrors />
 		</Form.Field>
-
 		<Form.Field {form} name="password">
 			<Form.Control let:attrs>
 				<Label>Password</Label>
@@ -94,15 +93,3 @@
 	<Divider dividerLabel="Or sign in with" />
 	<SocialAuth {isLoading} />
 </div>
-
-<style>
-	.icon-button {
-		position: absolute;
-		right: 0.5rem;
-		top: 50%;
-		transform: translateY(-50%);
-		border: none;
-		background: none;
-		cursor: pointer;
-	}
-</style>

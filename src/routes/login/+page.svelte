@@ -4,7 +4,6 @@
 	import Divider from './(components)/divider.svelte';
 	import LoginForm from './(components)/form/login-form.svelte';
 	import RegistrationForm from './(components)/form/registration-form.svelte';
-	// Add your script logic here if needed
 
 	let isLogin = true;
 	const toggleForm = () => {
@@ -63,7 +62,3 @@
 		</div>
 	</div>
 </div>
-
-<style>
-	/* Add any additional styles here */
-</style>
