@@ -2,8 +2,8 @@
 	import { assets } from '$app/paths';
 	import { Icons } from '$lib/components/icons';
 	import Divider from './(components)/divider.svelte';
-	import LoginForm from './(components)/login-form.svelte';
-	import RegistrationForm from './(components)/registration-form.svelte';
+	import LoginForm from './(components)/form/login-form.svelte';
+	import RegistrationForm from './(components)/form/registration-form.svelte';
 	// Add your script logic here if needed
 
 	let isLogin = true;

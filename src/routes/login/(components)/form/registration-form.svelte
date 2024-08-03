@@ -1,15 +1,11 @@
 <script>
-	import { goto } from '$app/navigation';
-	import { Icons } from '$lib/components/icons';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Input from '$lib/components/ui/input/input.svelte';
 	import Label from '$lib/components/ui/label/label.svelte';
 	import { cn } from '$lib/utils';
-	import GoogleSign from './google-sign.svelte';
-    import FacebookSign from './fb-sign.svelte';
-	import Divider from './divider.svelte';
-	import AppleSign from './apple-sign.svelte';
-	import SocialAuth from './social-auth.svelte';
+	import Divider from '../divider.svelte';
+	import SocialAuth from '../social-auth.svelte';
+	import { enhance } from '$app/forms';
 
 	let isLoading = $state(false);
 	let showPassword = $state(false);
@@ -18,7 +14,7 @@
 	export { className as class };
 
 	const onSubmit = async () => {
-		// isLoading = true;
+		isLoading = true;
 		// setTimeout(() => {
 		// 	isLoading = false;
 		// }, 3000);
@@ -30,32 +26,38 @@
 </script>
 
 <div class={cn('grid gap-6', className)}>
-	<form onsubmit={onSubmit} class="grid gap-6">
+	<form method="POST" use:enhance class="grid gap-6">
 		<div class="grid gap-2">
 			<Label for="firstName">First Name</Label>
 			<Input name="firstName" id="firstName" type="text" autocorrect="off" disabled={isLoading} />
 
 			<Label for="lastName">Last Name</Label>
 			<Input id="lastName" autocorrect="off" name="lastName" disabled={isLoading} />
-            
-            <Label for="email">Email</Label>
+
+			<Label for="email">Email</Label>
 			<Input name="email" id="email" type="email" autocorrect="off" disabled={isLoading} />
-            
-            <Label for="password">Password</Label>
+
+			<Label for="password">Password</Label>
 			<Input name="password" id="password" type="password" autocorrect="off" disabled={isLoading} />
+
+			<Label for="mobile">Mobile Number</Label>
+			<Input name="mobile" id="mobile" type="tel" autocorrect="off" disabled={isLoading} />
 		</div>
-        <p class="text-sm text-gray-600">
-            By creating an account, you agree to the Terms of Service. For more information about Koredor's privacy practices, see the Koredor Privacy Statement. We'll occasionally send you account-related emails.
-        </p>
+		<p class="text-sm text-gray-600">
+			By creating an account, you agree to the Terms of Service. For more information about
+			Koredor's privacy practices, see the Koredor Privacy Statement. We'll occasionally send you
+			account-related emails.
+		</p>
 		<Button type="submit" disabled={isLoading}>
 			{#if isLoading}
-				<!-- <Icons.spinner class="w-4 h-4 mr-2 animate-spin" /> -->
+				<i class="fa-solid fa-spinner animate-spin"></i>
+			{:else}
+				Sign Up with Email
 			{/if}
-			Sign Up with Email
 		</Button>
 	</form>
 	<Divider dividerLabel="Or sign in with" />
-    <SocialAuth isLoading={isLoading} />
+	<SocialAuth {isLoading} />
 </div>
 
 <style>
