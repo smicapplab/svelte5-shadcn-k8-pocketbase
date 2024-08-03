@@ -8,8 +8,8 @@
 	import Divider from '../divider.svelte';
 	import SocialAuth from '../social-auth.svelte';
 	import { superForm } from 'sveltekit-superforms';
-	import { loginFormSchema } from './schema';
 	import * as Form from '$lib/components/ui/form';
+	import { loginFormSchema } from '$lib/components/schemas/profile';
 
 	let isLoading = $state(false);
 	let showPassword = $state(false);
@@ -36,7 +36,7 @@
 </script>
 
 <div class={cn('grid gap-6', data)}>
-	<form method="POST" class="grid gap-2" use:enhance>
+	<form method="POST" class="grid gap-2" use:enhance action="?/login">
 		<Form.Field {form} name="email">
 			<Form.Control let:attrs>
 				<Label>Email</Label>

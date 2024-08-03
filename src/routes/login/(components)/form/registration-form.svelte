@@ -5,69 +5,109 @@
 	import { cn } from '$lib/utils';
 	import Divider from '../divider.svelte';
 	import SocialAuth from '../social-auth.svelte';
-	import { enhance } from '$app/forms';
+	import * as Form from '$lib/components/ui/form';
+	import { superForm } from 'sveltekit-superforms';
+	import { zodClient } from 'sveltekit-superforms/adapters';
+	import { registrationFormSchema } from '$lib/components/schemas/profile';
 
 	let isLoading = $state(false);
 	let showPassword = $state(false);
 
-	let className = $props();
-	export { className as class };
+	let data = $props();
+	const form = superForm(data, {
+		validators: zodClient(registrationFormSchema),
+		onSubmit: () => {
+			isLoading = true;
+		},
+		onResult: (result) => {
+			isLoading = false;
+			const { result: formResult } = result;
+			console.log(formResult);
+		}
+	});
 
-	const onSubmit = async () => {
-		isLoading = true;
-		// setTimeout(() => {
-		// 	isLoading = false;
-		// }, 3000);
-	};
+	const { form: formData, enhance } = form;
 
 	const togglePasswordVisibility = () => {
 		showPassword = !showPassword;
 	};
 </script>
 
-<div class={cn('grid gap-6', className)}>
-	<form method="POST" use:enhance class="grid gap-6">
-		<div class="grid gap-2">
-			<Label for="firstName">First Name</Label>
-			<Input name="firstName" id="firstName" type="text" autocorrect="off" disabled={isLoading} />
+<div class={cn('grid gap-6', data)}>
+	<form method="POST" class="grid gap-2" use:enhance action="?/registration">
+		<Form.Field {form} name="firstName">
+			<Form.Control let:attrs>
+				<Label>First Name</Label>
+				<Input {...attrs} bind:value={$formData.firstName} />
+			</Form.Control>
+			<Form.FieldErrors />
+		</Form.Field>
 
-			<Label for="lastName">Last Name</Label>
-			<Input id="lastName" autocorrect="off" name="lastName" disabled={isLoading} />
+		<Form.Field {form} name="lastName">
+			<Form.Control let:attrs>
+				<Label>Last Name</Label>
+				<Input {...attrs} bind:value={$formData.lastName} />
+			</Form.Control>
+			<Form.FieldErrors />
+		</Form.Field>
 
-			<Label for="email">Email</Label>
-			<Input name="email" id="email" type="email" autocorrect="off" disabled={isLoading} />
+		<Form.Field {form} name="email">
+			<Form.Control let:attrs>
+				<Label>Email</Label>
+				<Input {...attrs} bind:value={$formData.email} />
+			</Form.Control>
+			<Form.FieldErrors />
+		</Form.Field>
 
-			<Label for="password">Password</Label>
-			<Input name="password" id="password" type="password" autocorrect="off" disabled={isLoading} />
+		<Form.Field {form} name="password">
+			<Form.Control let:attrs>
+				<Label>Password</Label>
+				<div class="flex items-center w-full max-w-sm space-x-2">
+					<Input
+						{...attrs}
+						bind:value={$formData.password}
+						type={showPassword ? 'text' : 'password'}
+					/>
+					<Button
+						type="button"
+						class={cn(
+							'disabled:pointer-events-none disabled:opacity-50',
+							'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+							data
+						)}
+						on:click={togglePasswordVisibility}
+					>
+						{#if showPassword}
+							<i class="fa-solid fa-eye-slash"></i>
+						{:else}
+							<i class="fa-solid fa-eye"></i>
+						{/if}
+					</Button>
+				</div>
+			</Form.Control>
+			<Form.FieldErrors />
+		</Form.Field>
 
-			<Label for="mobile">Mobile Number</Label>
-			<Input name="mobile" id="mobile" type="tel" autocorrect="off" disabled={isLoading} />
-		</div>
-		<p class="text-sm text-gray-600">
+		<Form.Field {form} name="mobile">
+			<Form.Control let:attrs>
+				<Label>Mobile Number</Label>
+				<Input {...attrs} bind:value={$formData.mobile} />
+			</Form.Control>
+			<Form.FieldErrors />
+		</Form.Field>
+		<p class="text-[0.7rem] ">
 			By creating an account, you agree to the Terms of Service. For more information about
 			Koredor's privacy practices, see the Koredor Privacy Statement. We'll occasionally send you
 			account-related emails.
 		</p>
-		<Button type="submit" disabled={isLoading}>
+		<Form.Button disabled={isLoading}>
 			{#if isLoading}
 				<i class="fa-solid fa-spinner animate-spin"></i>
 			{:else}
 				Sign Up with Email
 			{/if}
-		</Button>
+		</Form.Button>
 	</form>
 	<Divider dividerLabel="Or sign in with" />
 	<SocialAuth {isLoading} />
 </div>
-
-<style>
-	.icon-button {
-		position: absolute;
-		right: 0.5rem;
-		top: 50%;
-		transform: translateY(-50%);
-		border: none;
-		background: none;
-		cursor: pointer;
-	}
-</style>
